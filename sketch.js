@@ -9,6 +9,8 @@ var machupicchuImg;
 var tajmahalImg;
 var cristoRioImg;
 var niagaraImg;
+var goodjobImg;
+var youImg;
 
 var canvas;
 var mappa= new Mappa('MapboxGL', 'pk.eyJ1IjoicmFjaGVsZWJhcmF6emV0dGEiLCJhIjoiY2pvaDdndGd6MGIwcjNwcW8zYndiazcyeCJ9.t-55v8vl28nalmYH6ozm6w');
@@ -88,10 +90,10 @@ var cascateNiagara = {
 
 
 var options = {
-  lat: 0,
-  lng: 0,
-  zoom: 1,
-  style: 'mapbox://styles/rachelebarazzetta/cjoxbmx9t2z212rs0r49pbi5b',
+  lat: +4,
+  lng: +19,
+  zoom: 1.9,
+  style: 'mapbox://styles/rachelebarazzetta/cjozjxi0105z92rp1e8pxcfev',
   pitch: 15 //degree
 }
 
@@ -105,113 +107,152 @@ function preload(){
   tajmahalImg = loadImage("./assets/tajmahal.png");
   cristoRioImg = loadImage("./assets/cristoredentore.png");
   niagaraImg = loadImage("./assets/niagara.png");
+  goodjobImg = loadImage("./assets/goodjob.jpg");
+  youImg = loadImage("./assets/explorer.png");
 }
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   myMap = mappa.tileMap(options);
   myMap.overlay(canvas);
+  textFont('Lato');
 
   options.lat = myLoc.latitude;
   options.long = myLoc.longitude;
   angleMode(DEGREES);
+
 }
 
 function draw() {
+
   clear();
+
+
+
+  textSize(22);
+  textStyle(BOLD);
+  fill('#FFF07C');
+  text('The Seven Wonders of the World',width/20, height/20);
+  textSize(9);
+  textStyle(NORMAL);
+
+  text('pressed the mouse to see the distance between you and the seven Wonders',width/20*15, height*18/20+12);
+  text('One of them is not one of the seven Wonders:',width/20*15, height*18/20+24);
+  text('Put the mouse on the circle to find out which one',width/20*15, height*18/20+36);
+
+
+  textSize(13);
+  textStyle(BOLD);
   noStroke();
-  fill('blue');
   var point0 = myMap.latLngToPixel(myLoc.latitude, myLoc.longitude);
-  ellipse(point0.x, point0.y, 10);
 
+  imageMode(CORNER);
+  fill('#70A9A1');
 
-  fill('yellow');
   var point1 = myMap.latLngToPixel(petraLat, petraLng);
+  var point2 = myMap.latLngToPixel(muragliaLat, muragliaLng);
+  var point3 = myMap.latLngToPixel(colosseoLat, colosseoLng);
+  var point4 = myMap.latLngToPixel(chichenLat, chichenLng);
+  var point5 = myMap.latLngToPixel(machupicchuLat, machupicchuLng);
+  var point6 = myMap.latLngToPixel(tajmahalLat, tajmahalLng);
+  var point7 = myMap.latLngToPixel(cristoRioLat, cristoRioLng);
+  var point8 = myMap.latLngToPixel(niagaraLat, niagaraLng);
+
+  var distance1 = calcGeoDistance(myLoc.latitude, myLoc.longitude, petraLat, petraLng, "km");
+  var distance2 = calcGeoDistance(myLoc.latitude, myLoc.longitude, muragliaLat, muragliaLng, "km");
+  var distance3 = calcGeoDistance(myLoc.latitude, myLoc.longitude, colosseoLat, colosseoLng, "km");
+  var distance4 = calcGeoDistance(myLoc.latitude, myLoc.longitude, chichenLat, chichenLng, "km");
+  var distance5 = calcGeoDistance(myLoc.latitude, myLoc.longitude, machupicchuLat, machupicchuLng, "km");
+  var distance6 = calcGeoDistance(myLoc.latitude, myLoc.longitude, tajmahalLat, tajmahalLng, "km");
+  var distance7 = calcGeoDistance(myLoc.latitude, myLoc.longitude, cristoRioLat, cristoRioLng, "km");
+  var distance8 = calcGeoDistance(myLoc.latitude, myLoc.longitude, niagaraLat, niagaraLng, "km");
+
+
+  if(mouseIsPressed === true){
+    stroke('#70A9A1');
+
+    strokeWeight(0.2);
+
+    line(point0.x, point0.y, point1.x, point1.y);
+    line(point0.x, point0.y, point2.x, point2.y);
+    line(point0.x, point0.y, point3.x, point3.y);
+    line(point0.x, point0.y, point4.x, point4.y);
+    line(point0.x, point0.y, point5.x, point5.y);
+    line(point0.x, point0.y, point6.x, point6.y);
+    line(point0.x, point0.y, point7.x, point7.y);
+    line(point0.x, point0.y, point8.x, point8.y);
+
+    fill('#F7F9F9');
+    noStroke();
+    textSize(11);
+    textStyle(NORMAL);
+    text(distance1 +'km',point1.x+10, point1.y+15);
+    text(distance2 +'km',point2.x+10, point2.y+15);
+    text(distance3 +'km',point3.x+10, point3.y+15);
+    text(distance4 +'km',point4.x+10, point4.y+15);
+    text(distance5 +'km',point5.x+10, point5.y+15);
+    text(distance6 +'km',point6.x+10, point6.y+15);
+    text(distance7 +'km' ,point7.x+10, point7.y+15);
+    text(distance8 +'km',point8.x+10, point8.y+15);
+    textSize(13);
+    textStyle(BOLD);
+    fill('#70A9A1');
+  }
+
+
   ellipse(point1.x, point1.y, 10);
   text(name1,point1.x+10, point1.y);
   image(petraImg,point1.x-30, point1.y,30,30);
 
-  var point2 = myMap.latLngToPixel(muragliaLat, muragliaLng);
+
   ellipse(point2.x, point2.y, 10);
   text(name2,point2.x+10, point2.y);
   image(muragliaImg,point2.x-30, point2.y,30,30);
 
-  var point3 = myMap.latLngToPixel(colosseoLat, colosseoLng);
+
   ellipse(point3.x, point3.y, 10);
   text(name3,point3.x+10, point3.y);
   image(colosseoImg,point3.x-30, point3.y,30,30);
 
-  var point4 = myMap.latLngToPixel(chichenLat, chichenLng);
+
   ellipse(point4.x, point4.y, 10);
   text(name4,point4.x+10, point4.y);
   image(chichenImg,point4.x-30, point4.y,30,30);
 
-  var point5 = myMap.latLngToPixel(machupicchuLat, machupicchuLng);
+
   ellipse(point5.x, point5.y, 10);
   text(name5,point5.x+10, point5.y);
   image(machupicchuImg,point5.x-30, point5.y,30,30);
 
-  var point6 = myMap.latLngToPixel(tajmahalLat, tajmahalLng);
+
   ellipse(point6.x, point6.y, 10);
   text(name6,point6.x+10, point6.y);
-  image(tajmahalImg,point6.x-30, point6.y,30,30);
+  image(tajmahalImg,point6.x-35, point6.y,30,30);
 
-  var point7 = myMap.latLngToPixel(cristoRioLat, cristoRioLng);
+
   ellipse(point7.x, point7.y, 10);
   text(name7,point7.x+10, point7.y);
   image(cristoRioImg,point7.x-30, point7.y,30,30);
 
-  var point8 = myMap.latLngToPixel(niagaraLat, niagaraLng);
-  ellipse(point8.x, point8.y, 10);
+
+  ellipse(point8.x, point8.y, radius);
   text(name8,point8.x+10, point8.y);
-  image(niagaraImg,point8.x-30, point8.y,30,30);
+  image(niagaraImg,point8.x-35, point8.y,30,30);
 
 
-  var distance1 = calcGeoDistance(myLoc.latitude, myLoc.longitude, petraLat, petraLng, "km");
 
-  var distance2 = calcGeoDistance(myLoc.latitude, myLoc.longitude, muragliaLat, muragliaLng, "km");
+imageMode(CENTER);
+image(youImg,point0.x, point0.y,40,40);
 
-  var distance3 = calcGeoDistance(myLoc.latitude, myLoc.longitude, colosseoLat, colosseoLng, "km");
-
-  var distance4 = calcGeoDistance(myLoc.latitude, myLoc.longitude, chichenLat, chichenLng, "km");
-
-  var distance5 = calcGeoDistance(myLoc.latitude, myLoc.longitude, machupicchuLat, machupicchuLng, "km");
-
-  var distance6 = calcGeoDistance(myLoc.latitude, myLoc.longitude, tajmahalLat, tajmahalLng, "km");
-
-  var distance7 = calcGeoDistance(myLoc.latitude, myLoc.longitude, cristoRioLat, cristoRioLng, "km");
-
-  var distance8 = calcGeoDistance(myLoc.latitude, myLoc.longitude, niagaraLat, niagaraLng, "km");
-
-
-if(mouseIsPressed === true){
-  stroke(20);
-  line(point0.x, point0.y, point1.x, point1.y);
-  line(point0.x, point0.y, point2.x, point2.y);
-  line(point0.x, point0.y, point3.x, point3.y);
-  line(point0.x, point0.y, point4.x, point4.y);
-  line(point0.x, point0.y, point5.x, point5.y);
-  line(point0.x, point0.y, point6.x, point6.y);
-  line(point0.x, point0.y, point7.x, point7.y);
-  line(point0.x, point0.y, point8.x, point8.y);
-
-  text(distance1,point1.x+10, point1.y+15);
-  text(distance2,point2.x+10, point2.y+15);
-  text(distance3,point3.x+10, point3.y+15);
-  text(distance4,point4.x+10, point4.y+15);
-  text(distance5,point5.x+10, point5.y+15);
-  text(distance6,point6.x+10, point6.y+15);
-  text(distance7,point7.x+10, point7.y+15);
-  text(distance8,point8.x+10, point8.y+15);
-
-}
 
 var d = dist(point8.x,point8.y,mouseX, mouseY);
+var radius = 10;
 
 if( d < radius){
-  fill('red');
+
+  image(goodjobImg,width/2, height/2,width,height);
 } else{
-  fill('yellow');
+
 }
 ellipse(point8.x,point8.y, 10);
 
